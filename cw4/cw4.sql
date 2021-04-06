@@ -1,14 +1,10 @@
 
-
 -- 1. Stworzenie nowej bazy danych
 CREATE DATABASE firma;
 USE firma;
 
 -- 2. Stworzenie schematu
-IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'rozliczenia')
-  BEGIN
-    EXEC ('CREATE SCHEMA rozliczenia;');
-  END;
+CREATE SCHEMA rozliczenia;
 
 -- 3. Stworzenie tabeli
 CREATE TABLE rozliczenia.pracownicy(
@@ -100,10 +96,10 @@ INSERT INTO rozliczenia.premie VALUES
 SELECT nazwisko, adres FROM rozliczenia.pracownicy;
 
 -- 6. Konwersja daty
-SELECT DATEPART(WEEKDAY, ddata) AS 'Alias1', DATEPART(MONTH, ddata) AS 'Alias2' from rozliczenia.godziny
+SELECT *, DATEPART(WEEKDAY, ddata) AS 'DzienTygodnia', DATEPART(MONTH, ddata) AS 'Miesiac' from rozliczenia.godziny
 
 -- 7. Obliczenie kwoty netto (podatek 19%)
-EXEC sp_rename 'rozliczenia.pensje.kwota', 'kwota_brutto', 'COLUMN';
+EXEC SP_RENAME 'rozliczenia.pensje.kwota', 'kwota_brutto', 'COLUMN';
 ALTER TABLE rozliczenia.pensje
 	ADD kwota_netto float(2);
 
