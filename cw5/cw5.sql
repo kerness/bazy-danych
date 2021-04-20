@@ -38,6 +38,11 @@ CREATE TABLE ksiegowosc.wynagrodzenia (
     id_premii int NOT NULL
 );
 
+COMMENT ON TABLE ksiegowosc.pracownicy IS 'Podstawowe dane personalne pracowników';
+COMMENT ON TABLE ksiegowosc.godziny IS 'Informacje o liczbie godzin przepracowanych przez poszczególnych pracpwników';
+COMMENT ON TABLE ksiegowosc.pensja IS 'Wysokość pensji odpowiadająca danemu stanowiskowi';
+COMMENT ON TABLE ksiegowosc.premia IS 'Informacje na temat premii przyznanych pracownikom';
+COMMENT ON TABLE ksiegowosc.wynagrodzenia IS 'Informacje dotyczące wszytskich wypłaconych wynagrodzeń';
 
 ALTER TABLE ksiegowosc.godziny
 	ADD FOREIGN KEY (id_pracownika)
@@ -148,7 +153,7 @@ JOIN ksiegowosc.godziny ON ksiegowosc.godziny.id_pracownika = ksiegowosc.pracown
 WHERE ksiegowosc.godziny.liczba_godzin > 160;
 
 
--- g) Wyświetl imię i nazwisko pracowników, których pensja zawiera się w przedziale 1500 –3000PLN
+-- g) Wyświetl imię i nazwisko pracowników, których pensja zawiera się w przedziale 1500 – 3000PLN
 SELECT imie, nazwisko FROM ksiegowosc.pracownicy
 JOIN ksiegowosc.wynagrodzenia ON pracownicy.id_pracownika = ksiegowosc.wynagrodzenia.id_pracownika
 JOIN ksiegowosc.pensja ON pensja.id_pensji = ksiegowosc.wynagrodzenia.id_pensji
@@ -161,7 +166,6 @@ JOIN ksiegowosc.godziny ON ksiegowosc.godziny.id_pracownika = ksiegowosc.pracown
 JOIN ksiegowosc.wynagrodzenia ON pracownicy.id_pracownika = ksiegowosc.wynagrodzenia.id_pracownika
 JOIN ksiegowosc.premia ON premia.id_premii = ksiegowosc.wynagrodzenia.id_premii
 WHERE ksiegowosc.godziny.liczba_godzin > 160 AND ksiegowosc.premia.kwota IS NULL;
-
 
 -- i) Uszereguj pracowników według pensji.
 SELECT imie, nazwisko, ksiegowosc.pensja.kwota
@@ -185,7 +189,6 @@ JOIN ksiegowosc.wynagrodzenia ON ksiegowosc.wynagrodzenia.id_pracownika = ksiego
 JOIN ksiegowosc.pensja ON ksiegowosc.pensja.id_pensji = ksiegowosc.wynagrodzenia.id_pensji
 GROUP BY pensja.stanowisko;
 
-
 -- l) Policz średnią, minimalną i maksymalną płacę dla stanowiska ‘kierownik’ (jeżeli takiego nie masz, to przyjmij dowolne inne).
 SELECT stanowisko, avg(kwota), min(kwota), max(kwota)
 FROM ksiegowosc.pensja
@@ -207,6 +210,12 @@ SELECT count(premia.id_premii), pensja.stanowisko FROM ksiegowosc.premia
 JOIN ksiegowosc.wynagrodzenia ON ksiegowosc.wynagrodzenia.id_premii = premia.id_premii
 JOIN ksiegowosc.pensja ON pensja.id_pensji = ksiegowosc.wynagrodzenia.id_pensji
 WHERE premia.kwota IS NOT NULL
-GROUP BY pensja.stanowisko
+GROUP BY pensja.stanowisko;
 
 -- p) Usuń wszystkich pracowników mających pensję mniejszą niż 1200 zł.
+
+DELETE FROM ksiegowosc.pracownicy
+USING ksiegowosc.wynagrodzenia, ksiegowosc.pensja
+WHERE ksiegowosc.pracownicy.id_pracownika = ksiegowosc.wynagrodzenia.id_pracownika
+AND ksiegowosc.pensja.id_pensji = ksiegowosc.wynagrodzenia.id_pensji
+AND ksiegowosc.pensja.kwota < '3000';
