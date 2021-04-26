@@ -4,7 +4,7 @@
 		nazwa_produktu -> Id_produktu, cena_produktu, VAT
 		id_klienta -> nazwa_klienta, data_zamownienia, ilosc, suma_brutto, suma_netto
 		nazwa_klienta -> id_klienta, data_zamownienia, ilosc, suma_brutto, suma_netto
-		data_zamownienia -> id_klienta, nazwa_klienta, ilość, suma_brutto, suma_netto
+		//data_zamownienia 
 		//cena_produktu
 		//ilosc
 		//VAT
@@ -24,7 +24,7 @@
 		//liczba_drzwi
 		//ulica
 		miasto -> kod_pocztowy
-		kod_pocztowy -> miasto, ulica
+		kod_pocztowy -> miasto
 
 	Klucze kandydujące:
 		id_pomieszczenia
