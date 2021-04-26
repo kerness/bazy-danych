@@ -23,7 +23,7 @@
 		//liczba_okien
 		//liczba_drzwi
 		//ulica
-		miasto -> kod_pocztowy
+		//miasto
 		kod_pocztowy -> miasto
 
 	Klucze kandydujące:
