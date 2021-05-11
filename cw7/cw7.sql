@@ -34,7 +34,8 @@ create procedure WriteFibonacci(upTo int)
 language SQL
 	as $$
 		-- Perform executes function and discards the result.
-		perform FibonacciSequence(20);
+		select FibonacciSequence(20);
 	$$;
 
 CALL WriteFibonacci(20);
+
