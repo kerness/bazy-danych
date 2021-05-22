@@ -1,5 +1,3 @@
--- TODO 4
-
 
 -- 1.
 -- https://www.postgresqltutorial.com/plpgsql-function-returns-a-table/
@@ -97,32 +95,36 @@ select quantity from production.productinventory p where p.productid = 527
 select SUM(quantity) from production.productinventory p where p.productid = 527
 
 
+-- 4. przyjmuje id zamówienia zwraca numer karty
+-- https://dataedo.com/samples/html/AdventureWorks/doc/AdventureWorks_2/modules/Sales_12/module.html
 
-
--- 4. przyjmuje id zamówienia zwraca numer karty NIE MAM
-
-create or replace function getCardNumber(_orderID int)
-returns timestamp
+create or replace function getCardNumber(_orderId int)
+returns varchar(25)
 language plpgsql
 as $$
 declare 
+	_creditCardId int;
 	_cardNumber varchar(25);
 begin
+	-- get credit card id
+	select creditcardid 
+	into _creditCardId
+	from sales.salesorderheader s 
+	join sales.customer c on c.customerid = s.customerid
+	where s.salesorderid = _orderId;
 	
-	
-	select cardnumber, p.businessentityid, p2.name
-	--into _cardNumber
-	from sales.creditcard c
-	join sales.personcreditcard p on p.creditcardid = c.creditcardid
-	join person.person p2 on p2.businessentityid = p.businessentityid 
-	where purchaseorderid = _orderID;
-	
+	-- get card number
+	select cardnumber
+	into _cardNumber
+	from sales.creditcard c 
+	where c.creditcardid = _creditCardId;
+
 	return _cardNumber;
 end;
 $$;
 
-select getCardNumber(1);
 
+select getCardNumber(43785);
 
 
 -- 5. returns division result + exception handling
@@ -251,7 +253,6 @@ begin
 end
 $$;
 
-
 do
 $$
 begin
@@ -268,5 +269,4 @@ call currencyConverter('USD', 'BRL', 54, '2077-01-01 00:00:00');
 end;
 $$
 language plpgsql;
-
 
