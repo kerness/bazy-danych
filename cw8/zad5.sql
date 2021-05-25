@@ -13,7 +13,6 @@ begin
 	_result = _num1 / _num2;
 	raise notice 'Division result: %', _result;
 end
-
 $$;
 
 do

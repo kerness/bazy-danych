@@ -1,7 +1,5 @@
 -- 7
 
--- co sie bedzie działo jak nie ma kursy dla danej daty? 
-
 create or replace procedure currencyConverter(
 	_from bpchar(3), 
 	_to bpchar(3), 
