@@ -1,18 +1,21 @@
 echo "MYSQL TEST"
-cd MYSQL
-./runMYSQLBench.sh
+#cd MYSQL
+MYSQL/runMYSQLBench.sh
 
-cd ..
+#cd ..
 
 echo "PSQL TEST"
-cd PSQL
-./runPSQLBench.sh
+#cd PSQL
+PSQL/runPSQLBench.sh
 
 echo "TEST COMPLETED"
 
-cd ..
-cd dataProcessing
+# cd ..
+# cd dataProcessing
 
 echo "PREPARING DATA"
-./getNumbers.sh
+dataProcessing/getNumbers.sh
+echo "CALCULATING AVG"
+dataProcessing/calculateAvg.sh
+
 echo "DATA ARE IN res DIRECTORY"
