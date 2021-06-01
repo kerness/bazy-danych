@@ -1,21 +1,20 @@
-echo "MYSQL TEST"
-#cd MYSQL
-MYSQL/runMYSQLBench.sh
+# remove unnecessary res files
+rm res/*.txt 2>/dev/null
+rm MYSQL/res/*MYSQL*.txt 2>/dev/null
+rm PSQL/res/*PSQL*.txt 2>/dev/null
 
-#cd ..
+
+echo "MYSQL TEST"
+MYSQL/runMYSQLBench.sh 
 
 echo "PSQL TEST"
-#cd PSQL
-PSQL/runPSQLBench.sh
+PSQL/runPSQLBench.sh 
 
 echo "TEST COMPLETED"
-
-# cd ..
-# cd dataProcessing
-
 echo "PREPARING DATA"
 dataProcessing/getNumbers.sh
+
 echo "CALCULATING AVG"
 dataProcessing/calculateAvg.sh
 
-echo "DATA ARE IN res DIRECTORY"
+echo "Data are in res directory"
