@@ -8,7 +8,7 @@ echo "Database was created"
 
 echo "Start benchmark..."
 echo "Without indexes"
-for I in {1..2}
+for I in {1..25}
 do
     echo "Test number: $I"
     mysql -vvv < MYSQL/1ZL.sql | grep "set (*" >> MYSQL/res/1ZL_MYSQL_normal.txt
@@ -20,7 +20,7 @@ done
 mysql < MYSQL/createIndexes.sql
 
 echo "With indexes"
-for I in {1..2}
+for I in {1..25}
 do
     echo "Test number: $I"
     mysql -vvv < MYSQL/1ZL.sql | grep "set (*" >> MYSQL/res/1ZL_MYSQL_idx.txt

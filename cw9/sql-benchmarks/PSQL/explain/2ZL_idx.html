@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/><style>
+table {border: medium solid #6495ed;border-collapse: collapse;width: 100%;} th{font-family: monospace;border: thin solid #6495ed;padding: 5px;background-color: #D0E3FA;}td{font-family: sans-serif;border: thin solid #6495ed;padding: 5px;text-align: center;}.odd{background:#e8edff;}img{padding:5px; border:solid; border-color: #dddddd #aaaaaa #aaaaaa #dddddd; border-width: 1px 2px 2px 1px; background-color:white;}</style>
+</head>
+<body>
+<table><tr><th colspan="1">EXPLAIN SELECT COUNT(*) FROM geochrono.Milion INNER JOIN geochrono.GeoPietro ON
+(mod(Milion.liczba,68)=geochrono.GeoPietro.id_pietro) NATURAL JOIN geochrono.GeoEpoka NATURAL JOIN
+geochrono.GeoOkres NATURAL JOIN geochrono.GeoEra NATURAL JOIN geochrono.GeoEon
+</th></tr><tr><th>QUERY PLAN</th></tr><tr class="odd"><td>Finalize Aggregate  (cost=13912.92..13912.93 rows=1 width=8)</td></tr>
+<tr><td>  -&amp;gt;  Gather  (cost=13912.70..13912.91 rows=2 width=8)</td></tr>
+<tr class="odd"><td>        Workers Planned: 2</td></tr>
+<tr><td>        -&amp;gt;  Partial Aggregate  (cost=12912.70..12912.71 rows=1 width=8)</td></tr>
+<tr class="odd"><td>              -&amp;gt;  Hash Join  (cost=7.61..12511.66 rows=160417 width=0)</td></tr>
+<tr><td>                    Hash Cond: (geoepoka.id_okres = geookres.id_okres)</td></tr>
+<tr class="odd"><td>                    -&amp;gt;  Hash Join  (cost=4.23..11250.46 rows=160417 width=4)</td></tr>
+<tr><td>                          Hash Cond: (geopietro.id_epoka = geoepoka.id_epoka)</td></tr>
+<tr class="odd"><td>                          -&amp;gt;  Hash Join  (cost=2.73..10746.75 rows=160417 width=4)</td></tr>
+<tr><td>                                Hash Cond: (mod(milion.liczba, 68) = geopietro.id_pietro)</td></tr>
+<tr class="odd"><td>                                -&amp;gt;  Parallel Seq Scan on milion  (cost=0.00..9572.67 rows=416667 width=4)</td></tr>
+<tr><td>                                -&amp;gt;  Hash  (cost=1.77..1.77 rows=77 width=8)</td></tr>
+<tr class="odd"><td>                                      -&amp;gt;  Seq Scan on geopietro  (cost=0.00..1.77 rows=77 width=8)</td></tr>
+<tr><td>                          -&amp;gt;  Hash  (cost=1.22..1.22 rows=22 width=8)</td></tr>
+<tr class="odd"><td>                                -&amp;gt;  Seq Scan on geoepoka  (cost=0.00..1.22 rows=22 width=8)</td></tr>
+<tr><td>                    -&amp;gt;  Hash  (cost=3.27..3.27 rows=9 width=4)</td></tr>
+<tr class="odd"><td>                          -&amp;gt;  Hash Join  (cost=2.09..3.27 rows=9 width=4)</td></tr>
+<tr><td>                                Hash Cond: (geoera.id_eon = geoeon.id_eon)</td></tr>
+<tr class="odd"><td>                                -&amp;gt;  Hash Join  (cost=1.07..2.19 rows=9 width=8)</td></tr>
+<tr><td>                                      Hash Cond: (geookres.id_era = geoera.id_era)</td></tr>
+<tr class="odd"><td>                                      -&amp;gt;  Seq Scan on geookres  (cost=0.00..1.09 rows=9 width=8)</td></tr>
+<tr><td>                                      -&amp;gt;  Hash  (cost=1.03..1.03 rows=3 width=8)</td></tr>
+<tr class="odd"><td>                                            -&amp;gt;  Seq Scan on geoera  (cost=0.00..1.03 rows=3 width=8)</td></tr>
+<tr><td>                                -&amp;gt;  Hash  (cost=1.01..1.01 rows=1 width=4)</td></tr>
+<tr class="odd"><td>                                      -&amp;gt;  Seq Scan on geoeon  (cost=0.00..1.01 rows=1 width=4)</td></tr>
+</table></body></html>

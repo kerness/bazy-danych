@@ -9,7 +9,7 @@ echo "Running PSSQL benchmarks..."
 echo "Start benchmark..."
 echo "Without indexes"
 psql -o /dev/null < PSQL/dropIndexes.sql
-for I in {1..2}
+for I in {1..25}
 do
     echo "Test number: $I"
     psql < PSQL/1ZL.sql | grep 'Time' >> PSQL/res/1ZL_PSQL_normal.txt
@@ -21,7 +21,7 @@ done
 psql -o /dev/null < PSQL/createIndexes.sql
 
 echo "With indexes"
-for I in {1..2}
+for I in {1..25}
 do
     echo "Test number: $I"
     psql < PSQL/1ZL.sql | grep 'Time' >> PSQL/res/1ZL_PSQL_idx.txt
